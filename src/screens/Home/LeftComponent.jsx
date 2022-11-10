@@ -3,6 +3,9 @@ import styled from 'styled-components'
 import logo from '../../assets/logo.png'
 
 const StyledLeftComponent = styled.div`
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 40%;
     height: 100vh;
     background-color: #241f21;
@@ -54,7 +57,7 @@ const LeftComponent = () => {
             <Logo src={logo} alt="" />
             <MainHeading>Code Deck</MainHeading>
             <SubHeading>Code. Compile. Develop.</SubHeading>
-            <AddPlayground> <span>+</span> Create PlayGround</AddPlayground>
+            <AddPlayground><span>+</span> Create New PlayGround</AddPlayground>
         </ContentContainer>
     </StyledLeftComponent>
   )

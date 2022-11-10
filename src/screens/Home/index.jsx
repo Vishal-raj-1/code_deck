@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import LeftComponent from './LeftComponent'
+import RightComponent from './RightComponent'
 
 const StyledHome = styled.div`
   width: 100%;
@@ -11,6 +12,7 @@ const Home = () => {
   return (
     <StyledHome>
       <LeftComponent />
+      <RightComponent />
     </StyledHome>
   )
 }
