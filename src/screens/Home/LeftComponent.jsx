@@ -1,7 +1,7 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import styled from 'styled-components'
 import logo from '../../assets/logo.png'
-
+import { ModalContext } from '../../context/ModalContext'
 const StyledLeftComponent = styled.div`
     position: fixed;
     top: 0;
@@ -14,7 +14,6 @@ const StyledLeftComponent = styled.div`
     justify-content: center;
     align-items: center;
 `
-
 const ContentContainer = styled.div`
     text-align: center;
 `
@@ -58,13 +57,14 @@ const AddPlayground = styled.button`
     }
 `
 const LeftComponent = () => {
+    const {setModal} = useContext(ModalContext);
     return (
         <StyledLeftComponent>
             <ContentContainer>
                 <Logo src={logo} alt="" />
                 <MainHeading> <span>Code</span> Deck</MainHeading>
                 <SubHeading>Code. Compile. Develop.</SubHeading>
-                <AddPlayground><span>+</span> Create New Playground</AddPlayground>
+                <AddPlayground onClick={() => setModal(true, 3)} ><span>+</span> Create New Playground</AddPlayground>
             </ContentContainer>
         </StyledLeftComponent>
     )

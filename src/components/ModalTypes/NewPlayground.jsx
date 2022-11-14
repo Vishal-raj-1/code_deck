@@ -1,13 +1,14 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import { Header, Heading } from '../Modal'
 import { IoCloseSharp } from 'react-icons/io5'
-
+import { ModalContext } from '../../context/ModalContext'
 const NewPlayground = () => {
+  const {setIsOpenModal} = useContext(ModalContext);
   return (
     <>
       <Header>
         <Heading>Create New Playground</Heading>
-        <IoCloseSharp />
+        <IoCloseSharp onClick={() => setIsOpenModal(false)}/>
       </Header>
       <p>Enter PLayground: <input type="text" /></p>
       <select name="" id="">
