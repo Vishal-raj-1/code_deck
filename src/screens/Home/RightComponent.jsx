@@ -1,9 +1,10 @@
-import React, {useContext} from 'react'
+import React, { useContext } from 'react'
 import styled from 'styled-components'
 import { IoTrashOutline } from 'react-icons/io5'
 import { BiEditAlt } from 'react-icons/bi'
 import logo from '../../assets/logo-small.png'
 import { ModalContext } from '../../context/ModalContext'
+import { PlaygroundContext } from '../../context/PlaygroundContext'
 
 const StyledRightComponent = styled.div`
     position: absolute;
@@ -86,45 +87,75 @@ const Logo = styled.img`
     margin-right: 1rem;
 `
 const RightComponent = () => {
-  const {setModal} = useContext(ModalContext);
+  const { openModal } = useContext(ModalContext);
+  const {folders, deleteFolder, deleteCard} = useContext(PlaygroundContext);
+
   return (
     <StyledRightComponent>
       <Header>
         <Heading size="large">
           My <span>Playground</span>
         </Heading>
-        <AddFolder onClick={() => {setModal(true, 1)}}> <span>+</span> New Folder</AddFolder>
+        <AddFolder onClick={() => openModal({
+          show: true,
+          modalType: 1,
+          identifiers: {
+            folderId: "",
+            cardId: "",
+          }
+        })}> <span>+</span> New Folder</AddFolder>
       </Header>
       <hr />
 
       {
-        Array.from({ length: 4 }).map(() => (
-          <FolderCard>
+        folders.map((folder) => (
+          <FolderCard key={folder.id}>
             <Header>
               <Heading size="small">
-                Folder Name
+                {folder.name}
               </Heading>
               <FolderIcons>
-                <IoTrashOutline />
-                <BiEditAlt onClick={() => {setModal(true, 4)}} />
-                <AddFolder onClick={() => {setModal(true, 2)}}><span>+</span> New Playground</AddFolder>
+                <IoTrashOutline onClick={() => deleteFolder(folder.id)}/> 
+                <BiEditAlt onClick={() => openModal({
+                  show: true,
+                  modalType: 4,
+                  identifiers: {
+                    folderId: folder.id,
+                    cardId: "",
+                  }
+                })} />
+                <AddFolder onClick={() => openModal({
+                  show: true,
+                  modalType: 2,
+                  identifiers: {
+                    folderId: folder.id,
+                    cardId: "",
+                  }
+                })}><span>+</span> New Playground</AddFolder>
               </FolderIcons>
             </Header>
 
             <PlayGroundCards>
               {
-                Array.from({ length: 4 }).map(() => (
-                  <Card>
+                folder['playgrounds'].map((playground) => (
+                  <Card key={playground.id}>
                     <CardContainer>
                       <Logo src={logo} />
                       <CardContent>
-                        <p>Playground Name</p>
-                        <p>Language: C++</p>
+                        <p>{playground.name}</p>
+                        <p>{playground.language}</p>
                       </CardContent>
                     </CardContainer>
                     <FolderIcons>
-                      <IoTrashOutline />
-                      <BiEditAlt onClick={() => {setModal(true, 5)}}/>
+                      <IoTrashOutline onClick={() => deleteCard(folder.id, playground.id)} />
+                      <BiEditAlt onClick={() => openModal({
+                        show: true,
+                        modalType: 1,
+                        identifiers: {
+                          folderId: folder.id,
+                          cardId: playground.id,
+                        }
+                      })} />
                     </FolderIcons>
                   </Card>
                 ))

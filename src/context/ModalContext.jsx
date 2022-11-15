@@ -4,15 +4,32 @@ export const ModalContext = createContext();
 
 // ModalFields: {foldername, filename, language, type, isopenmodel}
 function ModalProvider({children}){
-    const [isOpenModal, setIsOpenModal] = useState(false);
-    const [modalType, setModalType] = useState(null);
+    const initialModalFields = {
+        show : false,
+        modalType : "",
+        identifiers : {
+            folderId : "",
+            cardId : "",
+        }
+    }
 
-    const setModal = (isOpenModal, type) => {
-        setIsOpenModal(isOpenModal);
-        setModalType(type);
+    const [isOpenModal, setIsOpenModal] = useState({ ...initialModalFields});
+
+    const openModal = (value) => {
+        setIsOpenModal(value)
+    }
+
+    const closeModal = () => {
+        setIsOpenModal({ ...initialModalFields})
+    }
+
+    const ModalFeatures = {
+        isOpenModal: isOpenModal,
+        openModal: openModal,
+        closeModal: closeModal,
     }
     return (
-        <ModalContext.Provider value={{isOpenModal, setIsOpenModal, modalType, setModal}}>
+        <ModalContext.Provider value={ModalFeatures}>
             {children}
         </ModalContext.Provider>
     )

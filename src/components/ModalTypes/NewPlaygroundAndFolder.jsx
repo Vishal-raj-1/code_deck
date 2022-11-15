@@ -3,12 +3,12 @@ import { Header, Heading } from '../Modal'
 import { IoCloseSharp } from 'react-icons/io5'
 import { ModalContext } from '../../context/ModalContext'
 const NewPlaygroundAndFolder = () => {
-  const {setIsOpenModal} = useContext(ModalContext);
+  const {closeModal} = useContext(ModalContext);
   return (
     <>
       <Header>
         <Heading>Create New Playground & Create New Folder</Heading>
-        <IoCloseSharp onClick={() => setIsOpenModal(false)}/>
+        <IoCloseSharp onClick={() => closeModal()}/>
       </Header>
       <p>Enter Folder Name: <input type="text" /></p>
       <p>Enter PLayground: <input type="text" /></p>

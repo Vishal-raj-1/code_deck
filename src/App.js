@@ -4,19 +4,22 @@ import Playground from './screens/Playground';
 import Error404 from './screens/Error404';
 import { GlobalStyle } from './style/global';
 import ModalProvider from './context/ModalContext';
+import PlaygroundProvider from './context/PlaygroundContext';
 
 function App() {
   return (
-    <ModalProvider>
-      <BrowserRouter>
-        <GlobalStyle />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/playground" element={<Playground />} />
-          <Route path="*" element={<Error404 />} />
-        </Routes>
-      </BrowserRouter>
-    </ModalProvider>
+    <PlaygroundProvider>
+      <ModalProvider>
+        <BrowserRouter>
+          <GlobalStyle />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/playground" element={<Playground />} />
+            <Route path="*" element={<Error404 />} />
+          </Routes>
+        </BrowserRouter>
+      </ModalProvider>
+    </PlaygroundProvider>
   );
 }
 
