@@ -1,17 +1,21 @@
-import React, {useContext} from 'react'
-import { Header, Heading } from '../Modal'
+import React, { useContext } from 'react'
+import { Header, CloseButton, Input } from '../Modal'
 import { IoCloseSharp } from 'react-icons/io5'
 import { ModalContext } from '../../context/ModalContext'
 const EditPlaygroundTitle = () => {
-  const {closeModal} = useContext(ModalContext);
+  const { closeModal } = useContext(ModalContext);
   return (
     <>
       <Header>
-        <Heading>Edit Playground</Heading>
-        <IoCloseSharp onClick={() => closeModal()}/>
+        <h2>Edit Card Title</h2>
+        <CloseButton onClick={() => closeModal()}>
+          <IoCloseSharp />
+        </CloseButton>
       </Header>
-      <p>Enter New Name: <input type="text" /></p>
-      <button>Edit Playground</button>
+      <Input>
+        <input type="text" />
+        <button>Update Title</button>
+      </Input>
     </>
   )
 }

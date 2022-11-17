@@ -12,7 +12,6 @@ const StyledRightComponent = styled.div`
     right: 0;
     width: 60%;
     padding: 2rem;
-    height: 100vh;
 `
 
 const Header = styled.div`
@@ -31,7 +30,7 @@ const Heading = styled.h3`
   }
 `
 
-const AddFolder = styled.div`
+const AddButton = styled.div`
     font-size: 1rem;
     border-radius: 30px;
     color: black;
@@ -96,14 +95,14 @@ const RightComponent = () => {
         <Heading size="large">
           My <span>Playground</span>
         </Heading>
-        <AddFolder onClick={() => openModal({
+        <AddButton onClick={() => openModal({
           show: true,
           modalType: 1,
           identifiers: {
             folderId: "",
             cardId: "",
           }
-        })}> <span>+</span> New Folder</AddFolder>
+        })}> <span>+</span> New Folder</AddButton>
       </Header>
       <hr />
 
@@ -124,14 +123,14 @@ const RightComponent = () => {
                     cardId: "",
                   }
                 })} />
-                <AddFolder onClick={() => openModal({
+                <AddButton onClick={() => openModal({
                   show: true,
                   modalType: 2,
                   identifiers: {
                     folderId: folder.id,
                     cardId: "",
                   }
-                })}><span>+</span> New Playground</AddFolder>
+                })}><span>+</span> New Playground</AddButton>
               </FolderIcons>
             </Header>
 
@@ -143,7 +142,7 @@ const RightComponent = () => {
                       <Logo src={logo} />
                       <CardContent>
                         <p>{playground.name}</p>
-                        <p>{playground.language}</p>
+                        <p>Language: {playground.language}</p>
                       </CardContent>
                     </CardContainer>
                     <FolderIcons>

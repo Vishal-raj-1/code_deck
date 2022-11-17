@@ -2,6 +2,7 @@ import React, {useContext} from 'react'
 import styled from 'styled-components'
 import { NewFolder, NewPlayground, NewPlaygroundAndFolder, EditFolder, EditPlaygroundTitle } from './ModalTypes'
 import { ModalContext } from '../context/ModalContext'
+
 const ModalContainer = styled.div`
     position: fixed;
     top: 0;
@@ -9,7 +10,8 @@ const ModalContainer = styled.div`
 
     width: 100%;
     height: 100vh;
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 2;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -17,30 +19,48 @@ const ModalContainer = styled.div`
 
 const ModalContent = styled.div`
     background-color: #fff;
-    padding: 0.5rem;
-    // display: flex;
-    // flex-direction: row;
+    padding: 2rem;
+    width: 35%;
+    border-radius: 10px;
 `
 
 export const Header = styled.div`
-  font-size: 1.5rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.75rem 0;
 `
+export const CloseButton = styled.button`
+  background: transparent;
+  outline: 0;
+  border: 0;
+  font-size: 2rem;
+  cursor: pointer;
+`;
 
-export const Heading = styled.h3`
-  font-weight: 400;
+export const Input = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 0;
+  gap: 2rem;
+  padding-bottom: 0;
 
-  span{
-    font-weight: 700;
+  input {
+    flex-grow: 1;
+    height: 2rem;
   }
-`
+
+  button {
+    background: #241f21;
+    height: 2rem;
+    color: white;
+    padding: 0 2rem;
+  }
+`;
 
 const Modal = () => {
   const { isOpenModal } = useContext(ModalContext)
-  const {modalType} = isOpenModal;
+  const { modalType } = isOpenModal;
   // ModalTypes
   // 1: New Folder
   // 2: New Playground

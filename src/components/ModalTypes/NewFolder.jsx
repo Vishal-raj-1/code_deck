@@ -1,17 +1,22 @@
-import React, {useContext}from 'react'
-import { Header, Heading } from '../Modal'
-import {IoCloseSharp} from 'react-icons/io5'
+import React, { useContext } from 'react'
+import { Header, CloseButton, Input } from '../Modal'
+import { IoCloseSharp } from 'react-icons/io5'
 import { ModalContext } from '../../context/ModalContext'
+
 const NewFolder = () => {
-  const {closeModal} = useContext(ModalContext);
+  const { closeModal } = useContext(ModalContext);
   return (
     <>
       <Header>
-        <Heading>Create New Folder</Heading>
-        <IoCloseSharp onClick={() => closeModal()}/>
+        <h2>Create New Folder</h2>
+        <CloseButton onClick={() => closeModal()}>
+          <IoCloseSharp />
+        </CloseButton>
       </Header>
-      <p>Enter Folder Name: <input type="text" /></p>
-      <button>Create New Folder</button>
+      <Input>
+        <input type="text" />
+        <button>Create Folder</button>
+      </Input>
     </>
   )
 }
