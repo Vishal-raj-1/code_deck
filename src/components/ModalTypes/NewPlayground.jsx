@@ -7,8 +7,7 @@ import styled from 'styled-components';
 const InputWithSelect = styled.div`
   display: grid;
   grid-template-columns: 1fr 0.5fr;
-  row-gap: 1rem;
-  column-gap: 1rem;
+  gap: 1rem;
   margin-top: 1.2rem;
   align-items: center;
 

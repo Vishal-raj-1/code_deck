@@ -105,21 +105,21 @@ const RightComponent = () => {
         })}> <span>+</span> New Folder</AddButton>
       </Header>
       <hr />
-
+        
       {
-        folders.map((folder) => (
-          <FolderCard key={folder.id}>
+        Object.entries(folders).map(([folderId, folder]) => (
+          <FolderCard key={folderId}>
             <Header>
               <Heading size="small">
-                {folder.name}
+                {folder.title}
               </Heading>
               <FolderIcons>
-                <IoTrashOutline onClick={() => deleteFolder(folder.id)}/> 
+                <IoTrashOutline onClick={() => deleteFolder(folderId)}/> 
                 <BiEditAlt onClick={() => openModal({
                   show: true,
                   modalType: 4,
                   identifiers: {
-                    folderId: folder.id,
+                    folderId: folderId,
                     cardId: "",
                   }
                 })} />
@@ -127,7 +127,7 @@ const RightComponent = () => {
                   show: true,
                   modalType: 2,
                   identifiers: {
-                    folderId: folder.id,
+                    folderId: folderId,
                     cardId: "",
                   }
                 })}><span>+</span> New Playground</AddButton>
@@ -136,23 +136,23 @@ const RightComponent = () => {
 
             <PlayGroundCards>
               {
-                folder['playgrounds'].map((playground) => (
-                  <Card key={playground.id}>
+                Object.entries(folder['playgrounds']).map(([playgroundId, playground]) => (
+                  <Card key={playgroundId}>
                     <CardContainer>
                       <Logo src={logo} />
                       <CardContent>
-                        <p>{playground.name}</p>
+                        <p>{playground.title}</p>
                         <p>Language: {playground.language}</p>
                       </CardContent>
                     </CardContainer>
                     <FolderIcons>
-                      <IoTrashOutline onClick={() => deleteCard(folder.id, playground.id)} />
+                      <IoTrashOutline onClick={() => deleteCard(folderId, playgroundId)} />
                       <BiEditAlt onClick={() => openModal({
                         show: true,
-                        modalType: 1,
+                        modalType: 5,
                         identifiers: {
-                          folderId: folder.id,
-                          cardId: playground.id,
+                          folderId: folderId,
+                          cardId: playgroundId,
                         }
                       })} />
                     </FolderIcons>

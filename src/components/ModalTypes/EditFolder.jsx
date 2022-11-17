@@ -1,9 +1,15 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { Header, CloseButton, Input } from '../Modal'
 import { IoCloseSharp } from 'react-icons/io5'
 import { ModalContext } from '../../context/ModalContext'
-const EditFolder = ({ folderId, playgroundId }) => {
-  const { closeModal } = useContext(ModalContext);
+import { PlaygroundContext } from '../../context/PlaygroundContext'
+
+const EditFolder = () => {
+  const { closeModal, isOpenModal } = useContext(ModalContext);
+  const { editFolderTitle, folders } = useContext(PlaygroundContext);
+
+  const folderId = isOpenModal.identifiers.folderId;
+  const [folderTitle, setFolderTitle] = useState(folders[folderId].title);
 
   return (
     <>
@@ -14,8 +20,11 @@ const EditFolder = ({ folderId, playgroundId }) => {
         </CloseButton>
       </Header>
       <Input>
-        <input type="text" />
-        <button>Update Title</button>
+        <input type="text" onChange={(e) => setFolderTitle(e.target.value)} />
+        <button onClick={() => {
+          editFolderTitle(folderId, folderTitle)
+          closeModal()
+        }} >Update Title</button>
       </Input>
     </>
   )

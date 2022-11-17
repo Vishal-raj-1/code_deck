@@ -54,7 +54,7 @@ export const Input = styled.div`
     background: #241f21;
     height: 2rem;
     color: white;
-    padding: 0 2rem;
+    padding: 0.1rem 2rem;
   }
 `;
 
