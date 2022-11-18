@@ -8,9 +8,9 @@ const EditPlaygroundTitle = () => {
   const { isOpenModal, closeModal } = useContext(ModalContext);
   const { editPlaygroundTitle, folders } = useContext(PlaygroundContext);
 
-  const {folderId, cardId} = isOpenModal.identifiers;
+  const { folderId, cardId } = isOpenModal.identifiers;
   const [playgroundTitle, setPlaygroundTitle] = useState(folders[folderId].playgrounds[cardId].title);
-  
+
   return (
     <>
       <Header>
@@ -20,7 +20,7 @@ const EditPlaygroundTitle = () => {
         </CloseButton>
       </Header>
       <Input>
-        <input type="text" onChange={(e) => setPlaygroundTitle(e.target.value) } />
+        <input type="text" onChange={(e) => setPlaygroundTitle(e.target.value)} />
         <button onClick={() => {
           editPlaygroundTitle(folderId, cardId, playgroundTitle)
           closeModal()

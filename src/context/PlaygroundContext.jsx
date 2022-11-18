@@ -1,85 +1,112 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
+import { v4 as uuid } from 'uuid';
 
 export const PlaygroundContext = createContext();
 
 const PlaygroundProvider = ({ children }) => {
-    // rough implementation of a playground
 
-    const [folders, setFolders] = useState({
-        '1': {
-            title: "folder1",
+    const initialItems = {
+        [uuid()]: {
+            title: "DSA",
             playgrounds: {
-                '1_1': {
-                    title: "playground1",
-                    language: "javascript",
+                [uuid()]: {
+                    title: "Stack Implementation",
+                    language: "c++",
                 },
-                '1_2': {
-                    name: "playground2",
+                [uuid()]: {
+                    name: "Array",
                     language: "javascript",
                 },
             }
         },
-        '2': {
-            title: "folder2",
-            playgrounds: {
-                '2_1': {
-                    title: "playground1",
-                    language: "javascript",
-                },
-                '2_2': {
-                    title: "playground2",
-                    language: "javascript",
-                },
-            }
-        },
+    }
+
+    const [folders, setFolders] = useState(() => {
+        let localData = localStorage.getItem('playgrounds-data');
+        if (localData === null || localData === undefined) {
+            return initialItems;
+        }
+
+        return JSON.parse(localData);
     })
 
+    useEffect(() => {
+        localStorage.setItem('playgrounds-data', JSON.stringify(folders));
+    }, [folders])
+
     const deleteCard = (folderId, cardId) => {
-        const newFolders = folders.map((folder) => {
-            if (folder.id === folderId) {
-                folder['playgrounds'] = folder['playgrounds'].filter((playgrounds) => playgrounds.id !== cardId)
-            }
-            return folder;
-        })
-        setFolders(newFolders);
+        setFolders((oldState) => {
+            const newState = { ...oldState };
+            delete newState[folderId].playgrounds[cardId];
+            return newState;
+        });
     }
 
     const deleteFolder = (folderId) => {
-        setFolders(folders.filter((folder) => folder.id !== folderId));
+        setFolders((oldState) => {
+            const newState = { ...oldState };
+            delete newState[folderId];
+            return newState;
+        });
     }
 
-    const addFolder = () => {
-        console.log('add folder');
+    const addFolder = (folderName) => {
+        setFolders((oldState) => {
+            const newState = { ...oldState };
+
+            newState[uuid()] = {
+                title: folderName,
+                playgrounds: {}
+            }
+
+            return newState;
+        })
     }
 
-    const addCard = (folderId) => {
-        console.log('add card in folder', folderId);
+    const addPlayground = (folderId, playgroundName, language) => {
+        setFolders((oldState) => {
+            const newState = { ...oldState };
+
+            newState[folderId].playgrounds[uuid()] = {
+                title: playgroundName,
+                language: language
+            }
+
+            return newState;
+        })
     }
 
-    const addCardAndFolder = () => {
-        console.log('add card and folder');
+    const addPlaygroundAndFolder = (folderName, playgroundName, language) => {
+        setFolders((oldState) => {
+            const newState = { ...oldState }
+
+            newState[uuid()] = {
+                title: folderName,
+                playgrounds: {
+                    [uuid()]: {
+                        title: playgroundName,
+                        language: language
+                    }
+                }
+            }
+
+            return newState;
+        })
     }
 
     const editFolderTitle = (folderId, folderName) => {
-        setFolders({
-            ...folders,
-            [folderId]: {
-                ...folders[folderId],
-                title: folderName,
-            }
+        setFolders((oldState) => {
+            const newState = { ...oldState }
+            newState[folderId].title = folderName;
+            return newState;
         })
     }
 
     const editPlaygroundTitle = (folderId, cardId, PlaygroundTitle) => {
-        setFolders({
-            ...folders,
-            [folderId]: {
-                ...folders[folderId],
-                [cardId]:{
-                    ...folders[folderId][cardId],
-                    title: PlaygroundTitle,
-                }
-            }
+        setFolders((oldState) => {
+            const newState = { ...oldState }
+            newState[folderId].playgrounds[cardId].title = PlaygroundTitle;
+            return newState;
         })
     }
 
@@ -88,8 +115,8 @@ const PlaygroundProvider = ({ children }) => {
         deleteCard: deleteCard,
         deleteFolder: deleteFolder,
         addFolder: addFolder,
-        addCard: addCard,
-        addCardAndFolder: addCardAndFolder,
+        addPlayground: addPlayground,
+        addPlaygroundAndFolder: addPlaygroundAndFolder,
         editFolderTitle: editFolderTitle,
         editPlaygroundTitle: editPlaygroundTitle,
     }

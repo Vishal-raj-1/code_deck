@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react'
 import { Header, CloseButton } from '../Modal'
 import { IoCloseSharp } from 'react-icons/io5'
 import { ModalContext } from '../../context/ModalContext'
+import { PlaygroundContext } from '../../context/PlaygroundContext'
 import Select from 'react-select';
 import styled from 'styled-components';
 const InputWithSelect = styled.div`
@@ -25,7 +26,8 @@ const InputWithSelect = styled.div`
 `;
 
 const NewPlayground = () => {
-  const { closeModal } = useContext(ModalContext);
+  const { isOpenModal, closeModal } = useContext(ModalContext);
+  const { addPlayground } = useContext(PlaygroundContext);
 
   const languageOptions = [
     { value: "c++", label: "C++" },
@@ -34,6 +36,8 @@ const NewPlayground = () => {
     { value: "python", label: "Python" },
   ];
 
+  const {folderId} = isOpenModal.identifiers;
+  const [cardTitle, setCardTitle] = useState("");
   const [language, setLanguage] = useState(languageOptions[0]);
 
   const handleLanguageChange = (selectedOption) => {
@@ -49,13 +53,19 @@ const NewPlayground = () => {
         </CloseButton>
       </Header>
       <InputWithSelect>
-        <input type='text' />
+        <input
+          type='text'
+          onChange={(e) => setCardTitle(e.target.value)}
+        />
         <Select
           options={languageOptions}
           value={language}
           onChange={handleLanguageChange}
         />
-        <button> Create Playground </button>
+        <button onClick={() => {
+          addPlayground(folderId, cardTitle, language.label)
+          closeModal();
+        }}> Create Playground </button>
       </InputWithSelect>
     </>
   )

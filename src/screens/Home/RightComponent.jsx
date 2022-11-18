@@ -5,6 +5,7 @@ import { BiEditAlt } from 'react-icons/bi'
 import logo from '../../assets/logo-small.png'
 import { ModalContext } from '../../context/ModalContext'
 import { PlaygroundContext } from '../../context/PlaygroundContext'
+import { useNavigate } from 'react-router-dom'
 
 const StyledRightComponent = styled.div`
     position: absolute;
@@ -86,8 +87,10 @@ const Logo = styled.img`
     margin-right: 1rem;
 `
 const RightComponent = () => {
+  const navigate = useNavigate();
+
   const { openModal } = useContext(ModalContext);
-  const {folders, deleteFolder, deleteCard} = useContext(PlaygroundContext);
+  const { folders, deleteFolder, deleteCard } = useContext(PlaygroundContext);
 
   return (
     <StyledRightComponent>
@@ -105,7 +108,7 @@ const RightComponent = () => {
         })}> <span>+</span> New Folder</AddButton>
       </Header>
       <hr />
-        
+
       {
         Object.entries(folders).map(([folderId, folder]) => (
           <FolderCard key={folderId}>
@@ -114,7 +117,7 @@ const RightComponent = () => {
                 {folder.title}
               </Heading>
               <FolderIcons>
-                <IoTrashOutline onClick={() => deleteFolder(folderId)}/> 
+                <IoTrashOutline onClick={() => deleteFolder(folderId)} />
                 <BiEditAlt onClick={() => openModal({
                   show: true,
                   modalType: 4,
@@ -137,7 +140,9 @@ const RightComponent = () => {
             <PlayGroundCards>
               {
                 Object.entries(folder['playgrounds']).map(([playgroundId, playground]) => (
-                  <Card key={playgroundId}>
+                  <Card key={playgroundId} onClick={() => {
+                    navigate(`/playground/${folderId}/${playgroundId}`)
+                  }}>
                     <CardContainer>
                       <Logo src={logo} />
                       <CardContent>
@@ -145,7 +150,9 @@ const RightComponent = () => {
                         <p>Language: {playground.language}</p>
                       </CardContent>
                     </CardContainer>
-                    <FolderIcons>
+                    <FolderIcons onClick={(e) => {
+                      e.stopPropagation(); //stop click propagation from child to parent
+                    }}>
                       <IoTrashOutline onClick={() => deleteCard(folderId, playgroundId)} />
                       <BiEditAlt onClick={() => openModal({
                         show: true,
