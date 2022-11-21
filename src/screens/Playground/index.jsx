@@ -1,8 +1,16 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import EditorContainer from './CodeEditor'
+// import InputContainer from './InputContainer'
+// import OutputContainer from './OutputContainer'
+import Navbar from './Navbar'
 
 const Playground = () => {
+
   return (
-    <div>Playground</div>
+    <div>
+      <Navbar />
+      <EditorContainer />
+    </div>
   )
 }
 
