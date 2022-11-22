@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import Select from 'react-select'
+import React, { useState, useEffect } from 'react'
+import styled from 'styled-components'
 // npm i @uiw/react-codemirror
 import CodeMirror from '@uiw/react-codemirror'
 // npm i @uiw/codemirror-theme-bespin @uiw/codemirror-theme-duotone @uiw/codemirror-theme-dracula @uiw/codemirror-theme-github @uiw/codemirror-theme-xcode @uiw/codemirror-theme-vscode @uiw/codemirror-theme-okaidia
@@ -10,7 +10,7 @@ import { bespin } from '@uiw/codemirror-theme-bespin'
 import { duotoneDark, duotoneLight } from '@uiw/codemirror-theme-duotone'
 import { dracula } from '@uiw/codemirror-theme-dracula'
 import { xcodeDark, xcodeLight } from '@uiw/codemirror-theme-xcode'
-import { vscodeDark, vscodeLight } from '@uiw/codemirror-theme-vscode'
+import { vscodeDark } from '@uiw/codemirror-theme-vscode'
 import { okaidia } from '@uiw/codemirror-theme-okaidia'
 
 // npm i @codemirror/lang-cpp @codemirror/lang-java @codemirror/lang-javascript @codemirror/lang-python
@@ -25,63 +25,48 @@ import { python } from '@codemirror/lang-python'
 import { indentUnit } from '@codemirror/language'
 import { EditorState } from '@codemirror/state'
 
-const CodeEditor = () => {
+const CodeEditorContainer = styled.div`
+    height: calc(100vh - 12.5rem);
 
-
-    const themeOptions = [
-        { value: 'githubDark', label: 'githubDark' },
-        { value: 'githubLight', label: 'githubLight' },
-        { value: 'bespin', label: 'bespin' },
-        { value: 'duotoneDark', label: 'duotoneDark' },
-        { value: 'duotoneLight', label: 'duotoneLight' },
-        { value: 'dracula', label: 'dracula' },
-        { value: 'xcodeDark', label: 'xcodeDark' },
-        { value: 'xcodeLight', label: 'xcodeLight' },
-        { value: 'vscodeDark', label: 'vscodeDark' },
-        { value: 'vscodeLight', label: 'vscodeLight' },
-        { value: 'okaidia', label: 'okaidia' },
-    ]
-
-    const languageOptions = [
-        { value: 'javascript', label: 'javascript' },
-        { value: 'cpp', label: 'cpp' },
-        { value: 'java', label: 'java' },
-        { value: 'python', label: 'python' },
-    ]
-
-    // const handleThemeChange = (selectedOption) => {
-    //     setTheme(selectedOption)
-    // }
-
-    // const handleLanguageChange = (selectedOption) => {
-    //     setLanguage(selectedOption)
-    // }
-
+    & > div{
+        height: 100%;
+    }
+`
+const CodeEditor = ({
+    currentLanguage,
+    currentTheme,
+    currentCode,
+    setCurrentCode
+}) => {
 
     const [theme, setTheme] = useState(githubDark)
-    const [language, setLanguage] = useState(javascript)
-    const [code, setCode] = useState(`console.log('hello world!'),`)
+    const [language, setLanguage] = useState(javascript);
+
+    useEffect(() => {
+        if (currentLanguage === 'cpp') setLanguage(cpp);
+        if (currentLanguage === 'java') setLanguage(java);
+        if (currentLanguage === 'javascript') setLanguage(javascript);
+        if (currentLanguage === 'python') setLanguage(python);
+    }, [currentLanguage])
+
+
+    useEffect(() => {
+        if (currentTheme === 'githubDark') setTheme(githubDark);
+        if (currentTheme === 'githubLight') setTheme(githubLight);
+        if (currentTheme === 'bespin') setTheme(bespin);
+        if (currentTheme === 'duotoneDark') setTheme(duotoneDark);
+        if (currentTheme === 'duotoneLight') setTheme(duotoneLight);
+        if (currentTheme === 'dracula') setTheme(dracula);
+        if (currentTheme === 'xcodeDark') setTheme(xcodeDark);
+        if (currentTheme === 'xcodeLight') setTheme(xcodeLight);
+        if (currentTheme === 'vscodeDark') setTheme(vscodeDark);
+        if (currentTheme === 'okaidia') setTheme(okaidia);
+    }, [currentTheme])
 
     return (
-        <div>
-            <div>
-            {/* <Select 
-                options={themeOptions}
-                value={theme}
-                onChange={handleThemeChange}
-            />
-
-            <Select
-                options={languageOptions}
-                value={language}
-                onChange={handleLanguageChange}
-            />
-            Language: {language}
-            theme: {theme} */}
-
-            </div>
+        <CodeEditorContainer>
             <CodeMirror
-                value={code}
+                value={currentCode}
                 height="100%"
                 theme={theme}
                 extensions={[
@@ -90,7 +75,7 @@ const CodeEditor = () => {
                     EditorState.tabSize.of(8),
                     EditorState.changeFilter.of(() => true)
                 ]}
-                onChange={(value) => setCode(value)}
+                onChange={(value) => setCurrentCode(value)}
                 basicSetup={{
                     lineNumbers: true,
                     highlightActiveLineGutter: true,
@@ -118,7 +103,7 @@ const CodeEditor = () => {
                     lintKeymap: true,
                 }}
             />
-        </div>
+        </CodeEditorContainer>
     )
 }
 
