@@ -3,6 +3,35 @@ import { v4 as uuid } from 'uuid';
 
 export const PlaygroundContext = createContext();
 
+export const languageMap = {
+    "cpp": {
+        id: 54,
+        defaultCode: 
+        "#include <iostream>\n"
+        + "using namespace std;\n\n"
+        + "int main() {\n"
+        + "\tcout << 'Hello World!';\n"
+        + "\treturn 0;\n"
+        + "}",
+    },
+    "java": {
+        id: 62,
+        defaultCode: `public class Main {
+            public static void main(String[] args) {
+                System.out.println("Hello World!");
+            }
+    }`,
+    },
+    "python": {
+        id: 71,
+        defaultCode: `print("Hello World!")`,
+    },
+    "javascript": {
+        id: 63,
+        defaultCode: `console.log("Hello World!");`,
+    }
+}
+
 const PlaygroundProvider = ({ children }) => {
 
     const initialItems = {
@@ -11,11 +40,13 @@ const PlaygroundProvider = ({ children }) => {
             playgrounds: {
                 [uuid()]: {
                     title: "Stack Implementation",
-                    language: "c++",
+                    language: "cpp",
+                    code: languageMap["cpp"].defaultCode,
                 },
                 [uuid()]: {
                     name: "Array",
                     language: "javascript",
+                    code: languageMap["javascript"].defaultCode,
                 },
             }
         },
@@ -69,14 +100,15 @@ const PlaygroundProvider = ({ children }) => {
 
             newState[folderId].playgrounds[uuid()] = {
                 title: playgroundName,
-                language: language
+                language: language,
+                code: languageMap[language].defaultCode,
             }
 
             return newState;
         })
     }
 
-    const addPlaygroundAndFolder = (folderName, playgroundName, language) => {
+    const addPlaygroundAndFolder = (folderName, playgroundName, cardLanguage) => {
         setFolders((oldState) => {
             const newState = { ...oldState }
 
@@ -85,7 +117,8 @@ const PlaygroundProvider = ({ children }) => {
                 playgrounds: {
                     [uuid()]: {
                         title: playgroundName,
-                        language: language
+                        language: cardLanguage,
+                        code: languageMap[cardLanguage].defaultCode,
                     }
                 }
             }
@@ -110,6 +143,15 @@ const PlaygroundProvider = ({ children }) => {
         })
     }
 
+    const savePlayground = (folderId, cardId, newCode, newLanguage) => {
+        setFolders((oldState) => {
+            const newState = { ...oldState };
+            newState[folderId].playgrounds[cardId].code = newCode;
+            newState[folderId].playgrounds[cardId].language = newLanguage;
+            return newState;
+        })
+    }
+
     const PlayGroundFeatures = {
         folders: folders,
         deleteCard: deleteCard,
@@ -119,6 +161,7 @@ const PlaygroundProvider = ({ children }) => {
         addPlaygroundAndFolder: addPlaygroundAndFolder,
         editFolderTitle: editFolderTitle,
         editPlaygroundTitle: editPlaygroundTitle,
+        savePlayground: savePlayground,
     }
 
     return (

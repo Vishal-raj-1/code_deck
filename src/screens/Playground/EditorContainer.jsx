@@ -1,9 +1,10 @@
 import React, { useContext, useState } from 'react'
 import CodeEditor from './CodeEditor'
 import styled from 'styled-components'
-import { BiEditAlt } from 'react-icons/bi'
+import { BiEditAlt, BiImport } from 'react-icons/bi'
 import { ModalContext } from '../../context/ModalContext'
 import Select from 'react-select';
+import { languageMap } from '../../context/PlaygroundContext'
 
 const StyledEditorContainer = styled.div`
   display: flex;
@@ -33,13 +34,38 @@ const SelectBars = styled.div`
   align-items: center;
   gap: 1rem;
 
-  button{
-    padding: 12px;
-    background: skyblue;
-    border: none;
-    border-radius: 5px;
+  & > div{
+    width: 10rem;
   }
 `
+const Button = styled.button`
+  padding: 0.6rem 1rem;
+  background: #0097d7;
+  border: none;
+  border-radius: 32px;
+  font-weight: 700;
+  cursor: pointer;
+`
+const LowerToolBar = styled.div`
+  height: 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+
+  input{
+    display: none;
+  }
+
+  label{
+    font-size: 1.2rem;
+
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+  }
+`
+
 const EditorContainer = ({
   title,
   currentLanguage,
@@ -47,7 +73,9 @@ const EditorContainer = ({
   currentCode,
   setCurrentCode,
   folderId,
-  playgroundId
+  playgroundId,
+  saveCode,
+  runCode
 }) => {
 
   const { openModal } = useContext(ModalContext)
@@ -78,12 +106,14 @@ const EditorContainer = ({
 
   const handleLanguageChange = (selectedOption) => {
     setLanguage(selectedOption)
+    setCurrentLanguage(selectedOption.value)
+    setCurrentCode(languageMap[selectedOption.value].defaultCode)
   }
 
   const [currentTheme, setCurrentTheme] = useState({ value: 'githubDark', label: 'githubDark' })
   const [language, setLanguage] = useState(() => {
-    for(let i=0; i<languageOptions.length; i++) {
-      if(languageOptions[i].value === currentLanguage) {
+    for (let i = 0; i < languageOptions.length; i++) {
+      if (languageOptions[i].value === currentLanguage) {
         return languageOptions[i]
       }
     }
@@ -104,11 +134,11 @@ const EditorContainer = ({
           })} />
         </Title>
         <SelectBars>
-          <button>Save code</button>
+          <Button onClick={saveCode}>Save code</Button>
           <Select
             options={languageOptions}
-            value={currentLanguage}
-            onChange={setCurrentLanguage}
+            value={language}
+            onChange={handleLanguageChange}
           />
           <Select
             options={themeOptions}
@@ -119,10 +149,17 @@ const EditorContainer = ({
       </UpperToolBar>
       <CodeEditor
         currentLanguage={currentLanguage}
-        currentTheme={currentTheme}
+        currentTheme={currentTheme.value}
         currentCode={currentCode}
         setCurrentCode={setCurrentCode}
       />
+      <LowerToolBar>
+        <label htmlFor="codefile">
+          <input type="file" accept="." id="codefile" /> <BiImport /> Import Code
+        </label>
+
+        <Button onClick={runCode}>Run Code</Button>
+      </LowerToolBar>
     </StyledEditorContainer >
   )
 }

@@ -8,6 +8,8 @@ import { useParams } from 'react-router-dom'
 import { PlaygroundContext } from '../../context/PlaygroundContext'
 import { ModalContext } from '../../context/ModalContext'
 import Modal from '../../components/Modal'
+import { Buffer } from 'buffer'
+import axios from 'axios'
 const MainContainer = styled.div`
   display: grid;
   grid-template-columns: 2fr 1fr;
@@ -22,14 +24,62 @@ const Consoles = styled.div`
 
 const Playground = () => {
   const { folderId, playgroundId } = useParams()
-  const { folders } = useContext(PlaygroundContext)
+  const { folders, savePlayground } = useContext(PlaygroundContext)
   const { isOpenModal } = useContext(ModalContext)
-  const { title, language } = folders[folderId].playgrounds[playgroundId]
+  const { title, language, code } = folders[folderId].playgrounds[playgroundId]
 
   const [currentLanguage, setCurrentLanguage] = useState(language)
-  const [currentCode, setCurrentCode] = useState('')
+  const [currentCode, setCurrentCode] = useState(code)
   const [currentInput, setCurrentInput] = useState('')
   const [currentOutput, setCurrentOutput] = useState('')
+
+  // all logic of the playground
+  const saveCode = () => {
+    savePlayground(folderId, playgroundId, currentCode, currentLanguage)
+  }
+
+  const encode = (str) => {
+    return Buffer.from(str, "binary").toString("base64")
+  }
+
+  const decode = (str) => {
+    return Buffer.from(str, 'base64').toString()
+  }
+
+  const postSubmission = async (language_id, source_code, stdin) => {
+    const options = {
+      method: 'POST',
+      url: 'https://judge0-ce.p.rapidapi.com/submissions',
+      params: { base64_encoded: 'true', fields: '*' },
+      headers: {
+        'content-type': 'application/json',
+        'Content-Type': 'application/json',
+        'X-RapidAPI-Key': 'b4e5c5a05fmsh9adf6ec091523f8p165338jsncc58f31c26e1',
+        'X-RapidAPI-Host': 'judge0-ce.p.rapidapi.com'
+      },
+      data: JSON.stringify({
+        language_id: language_id,
+        source_code: source_code,
+        stdin: stdin
+      })
+    };
+
+    const res = await axios.request(options);
+    return res.data.token
+  }
+
+  const getOutput = () => {
+    // will create in next class
+    // step 1: writing the code
+    // step 2: save the code
+    // step 3: encode the binary string to base64
+    // submit the code:=> will get one token
+    // with the help of the token, I will get the response, if response status id 
+    // decode the output
+  }
+  const runCode = () => {
+    console.log('runnning code......')
+  }
 
   return (
     <div>
@@ -43,6 +93,8 @@ const Playground = () => {
           setCurrentCode={setCurrentCode}
           folderId={folderId}
           playgroundId={playgroundId}
+          saveCode={saveCode}
+          runCode={runCode}
         />
         <Consoles>
           <InputConsole
