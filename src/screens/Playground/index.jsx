@@ -5,7 +5,7 @@ import OutputConsole from './OutputConsole'
 import Navbar from './Navbar'
 import styled from 'styled-components'
 import { useParams } from 'react-router-dom'
-import { PlaygroundContext } from '../../context/PlaygroundContext'
+import { languageMap, PlaygroundContext } from '../../context/PlaygroundContext'
 import { ModalContext } from '../../context/ModalContext'
 import Modal from '../../components/Modal'
 import { Buffer } from 'buffer'
@@ -25,7 +25,7 @@ const Consoles = styled.div`
 const Playground = () => {
   const { folderId, playgroundId } = useParams()
   const { folders, savePlayground } = useContext(PlaygroundContext)
-  const { isOpenModal } = useContext(ModalContext)
+  const { isOpenModal, openModal, closeModal } = useContext(ModalContext)
   const { title, language, code } = folders[folderId].playgrounds[playgroundId]
 
   const [currentLanguage, setCurrentLanguage] = useState(language)
@@ -68,17 +68,65 @@ const Playground = () => {
     return res.data.token
   }
 
-  const getOutput = () => {
-    // will create in next class
-    // step 1: writing the code
-    // step 2: save the code
-    // step 3: encode the binary string to base64
-    // submit the code:=> will get one token
-    // with the help of the token, I will get the response, if response status id 
-    // decode the output
+  const getOutput = async (token) => {
+    // we will make api call here
+    const options = {
+      method: 'GET',
+      url: "https://judge0-ce.p.rapidapi.com/submissions/" + token,
+      params: { base64_encoded: 'true', fields: '*' },
+      headers: {
+        'X-RapidAPI-Key': '3ed7a75b44mshc9e28568fe0317bp17b5b2jsn6d89943165d8',
+        'X-RapidAPI-Host': 'judge0-ce.p.rapidapi.com'
+      }
+    };
+
+    // call the api
+    const res = await axios.request(options);
+    if (res.data.status_id <= 2) {
+      const res2 = await getOutput(token);
+      return res2.data;
+    }
+    return res.data;
   }
-  const runCode = () => {
-    console.log('runnning code......')
+
+  const runCode = async () => {
+    openModal({
+      show: true,
+      modalType: 6,
+      identifiers: {
+        folderId: "",
+        cardId: "",
+      }
+    })
+    const language_id = languageMap[currentLanguage].id;
+    const source_code = encode(currentCode);
+    const stdin = encode(currentInput);
+
+    // pass these things to Create Submissions
+    const token = await postSubmission(language_id, source_code, stdin);
+
+    // get the output
+    const res = await getOutput(token);
+    const status_name = res.status.description;
+    const decoded_output = decode(res.stdout ? res.stdout : '');
+    const decoded_compile_output = decode(res.compile_output ? res.compile_output : '');
+    const decoded_error = decode(res.stderr ? res.stderr : '');
+
+    let final_output = '';
+    if (res.status_id !== 3) {
+      // our code have some error
+      if (decoded_compile_output === "") {
+        final_output = decoded_error;
+      }
+      else {
+        final_output = decoded_compile_output;
+      }
+    }
+    else {
+      final_output = decoded_output;
+    }
+    setCurrentOutput(status_name + "\n\n" + final_output);
+    closeModal();
   }
 
   return (
