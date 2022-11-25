@@ -119,6 +119,32 @@ const EditorContainer = ({
     }
     return languageOptions[0];
   })
+
+  const getFile = (e) => {
+    const input = e.target;
+
+    if ("files" in input && input.files.length > 0) {
+      placeFileContent(input.files[0]);
+    }
+  };
+
+  const placeFileContent = (file) => {
+    readFileContent(file)
+      .then((content) => {
+        setCurrentCode(content);
+      })
+      .catch((error) => console.log(error));
+  };
+
+  function readFileContent(file) {
+    const reader = new FileReader();
+    return new Promise((resolve, reject) => {
+      reader.onload = (event) => resolve(event.target.result);
+      reader.onerror = (error) => reject(error);
+      reader.readAsText(file);
+    });
+  }
+
   return (
     <StyledEditorContainer>
       <UpperToolBar>
@@ -155,7 +181,7 @@ const EditorContainer = ({
       />
       <LowerToolBar>
         <label htmlFor="codefile">
-          <input type="file" accept="." id="codefile" /> <BiImport /> Import Code
+          <input type="file" accept="." id="codefile" onChange={(e) => getFile(e)} /> <BiImport /> Import Code
         </label>
 
         <Button onClick={runCode}>Run Code</Button>
