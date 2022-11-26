@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react'
 import CodeEditor from './CodeEditor'
 import styled from 'styled-components'
-import { BiEditAlt, BiImport } from 'react-icons/bi'
+import { BiEditAlt, BiImport, BiExport } from 'react-icons/bi'
 import { ModalContext } from '../../context/ModalContext'
 import Select from 'react-select';
 import { languageMap } from '../../context/PlaygroundContext'
@@ -57,12 +57,13 @@ const LowerToolBar = styled.div`
     display: none;
   }
 
-  label{
+  label, a{
     font-size: 1.2rem;
 
     display: flex;
     align-items: center;
     gap: 0.7rem;
+    color: black;
   }
 `
 
@@ -160,6 +161,9 @@ const EditorContainer = ({
           <input type="file" accept="." id="codefile" onChange={(e) => getFile(e, setCurrentCode)} /> <BiImport /> Import Code
         </label>
 
+        <a href={`data:text/plain;charset=utf-8,${encodeURIComponent(currentCode)}`} download="code.txt">
+          <BiExport /> Export Code
+        </a>
         <Button onClick={runCode}>Run Code</Button>
       </LowerToolBar>
     </StyledEditorContainer >

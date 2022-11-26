@@ -21,8 +21,12 @@ export const Header = styled.div`
   input{
     display: none;
   }
-  label{
+  label, a{
     font-weight: 400;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    color: black;
   }
 `
 
