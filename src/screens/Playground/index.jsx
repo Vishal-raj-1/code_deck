@@ -129,6 +129,30 @@ const Playground = () => {
     closeModal();
   }
 
+  const getFile = (e, setState) => {
+    const input = e.target;
+    if ("files" in input && input.files.length > 0) {
+      placeFileContent(input.files[0], setState);
+    }
+  };
+
+  const placeFileContent = (file, setState) => {
+    readFileContent(file)
+      .then((content) => {
+        setState(content)
+      })
+      .catch((error) => console.log(error));
+  };
+
+  function readFileContent(file) {
+    const reader = new FileReader();
+    return new Promise((resolve, reject) => {
+      reader.onload = (event) => resolve(event.target.result);
+      reader.onerror = (error) => reject(error);
+      reader.readAsText(file);
+    });
+  }
+
   return (
     <div>
       <Navbar />
@@ -143,11 +167,13 @@ const Playground = () => {
           playgroundId={playgroundId}
           saveCode={saveCode}
           runCode={runCode}
+          getFile={getFile}
         />
         <Consoles>
           <InputConsole
             currentInput={currentInput}
             setCurrentInput={setCurrentInput}
+            getFile={getFile}
           />
           <OutputConsole
             currentOutput={currentOutput}

@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-
+import { BiImport } from 'react-icons/bi'
 export const Console = styled.div`
   background: #fff;
   display: flex;
@@ -17,6 +17,13 @@ export const Header = styled.div`
   font-weight: 700;
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  input{
+    display: none;
+  }
+  label{
+    font-weight: 400;
+  }
 `
 
 export const TextArea = styled.textarea`
@@ -28,11 +35,14 @@ export const TextArea = styled.textarea`
   padding-top: 0.5rem;
   font-size: 1.1rem;
 `
-const InputConsole = ({ currentInput, setCurrentInput }) => {
+const InputConsole = ({ currentInput, setCurrentInput, getFile }) => {
   return (
     <Console>
       <Header>
-        Input:
+        Input: 
+        <label htmlFor="inputfile">
+          <input type="file" accept="." id="inputfile" onChange={(e) => getFile(e, setCurrentInput)} /> <BiImport /> Import Input
+        </label>
       </Header>
       <TextArea
         onChange={(e) => setCurrentInput(e.target.value)}
