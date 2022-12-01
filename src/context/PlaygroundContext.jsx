@@ -10,7 +10,7 @@ export const languageMap = {
         "#include <iostream>\n"
         + "using namespace std;\n\n"
         + "int main() {\n"
-        + "\tcout << 'Hello World!';\n"
+        + '\tcout << "Hello World!";\n'
         + "\treturn 0;\n"
         + "}",
     },
