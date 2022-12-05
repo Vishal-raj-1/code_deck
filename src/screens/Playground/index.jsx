@@ -12,8 +12,8 @@ import { Buffer } from 'buffer'
 import axios from 'axios'
 const MainContainer = styled.div`
   display: grid;
-  grid-template-columns: 2fr 1fr;
-  height: calc(100vh - 4.5rem);
+  grid-template-columns: ${({ isFullScreen }) => isFullScreen ? '1fr' : '2fr 1fr'};
+  height: ${({ isFullScreen }) => isFullScreen ? '100vh' : 'calc(100vh - 4.5rem)'};
 `
 
 const Consoles = styled.div`
@@ -32,6 +32,7 @@ const Playground = () => {
   const [currentCode, setCurrentCode] = useState(code)
   const [currentInput, setCurrentInput] = useState('')
   const [currentOutput, setCurrentOutput] = useState('')
+  const [isFullScreen, setIsFullScreen] = useState(false)
 
   // all logic of the playground
   const saveCode = () => {
@@ -155,8 +156,8 @@ const Playground = () => {
 
   return (
     <div>
-      <Navbar />
-      <MainContainer>
+      <Navbar isFullScreen={isFullScreen} />
+      <MainContainer isFullScreen={isFullScreen}>
         <EditorContainer
           title={title}
           currentLanguage={currentLanguage}
@@ -168,17 +169,23 @@ const Playground = () => {
           saveCode={saveCode}
           runCode={runCode}
           getFile={getFile}
+          isFullScreen={isFullScreen}
+          setIsFullScreen={setIsFullScreen}
         />
-        <Consoles>
-          <InputConsole
-            currentInput={currentInput}
-            setCurrentInput={setCurrentInput}
-            getFile={getFile}
-          />
-          <OutputConsole
-            currentOutput={currentOutput}
-          />
-        </Consoles>
+        {
+          !isFullScreen && (
+            <Consoles>
+              <InputConsole
+                currentInput={currentInput}
+                setCurrentInput={setCurrentInput}
+                getFile={getFile}
+              />
+              <OutputConsole
+                currentOutput={currentOutput}
+              />
+            </Consoles>
+          )
+        }
       </MainContainer>
       {isOpenModal.show && <Modal />}
     </div>

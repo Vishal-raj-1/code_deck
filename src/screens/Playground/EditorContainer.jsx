@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react'
 import CodeEditor from './CodeEditor'
 import styled from 'styled-components'
-import { BiEditAlt, BiImport, BiExport } from 'react-icons/bi'
+import { BiEditAlt, BiImport, BiExport, BiFullscreen } from 'react-icons/bi'
 import { ModalContext } from '../../context/ModalContext'
 import Select from 'react-select';
 import { languageMap } from '../../context/PlaygroundContext'
@@ -38,13 +38,13 @@ const SelectBars = styled.div`
     width: 10rem;
   }
 `
-const Button = styled.button`
-  padding: 0.6rem 1rem;
-  background: #0097d7;
-  border: none;
-  border-radius: 32px;
-  font-weight: 700;
-  cursor: pointer;
+
+const CodeEditorContainer = styled.div`
+    height: calc(100% - 8rem);
+
+    & > div{
+        height: 100%;
+    }
 `
 const LowerToolBar = styled.div`
   height: 4rem;
@@ -57,16 +57,30 @@ const LowerToolBar = styled.div`
     display: none;
   }
 
-  label, a{
+  label, a, button{
     font-size: 1.2rem;
-
+    border: none;
     display: flex;
     align-items: center;
     gap: 0.7rem;
     color: black;
   }
+  button:first-child{
+    background: none;
+  }
+  button:last-child{
+    font-weight: 400;
+    font-size: 1.1rem;
+  }
 `
-
+const SaveAndRunButton = styled.button`
+  padding: 0.6rem 1rem;
+  background: #0097d7;
+  border: none;
+  border-radius: 32px;
+  font-weight: 700;
+  cursor: pointer;
+`
 const EditorContainer = ({
   title,
   currentLanguage,
@@ -78,6 +92,8 @@ const EditorContainer = ({
   saveCode,
   runCode,
   getFile,
+  isFullScreen,
+  setIsFullScreen
 }) => {
 
   const { openModal } = useContext(ModalContext)
@@ -137,7 +153,7 @@ const EditorContainer = ({
           })} />
         </Title>
         <SelectBars>
-          <Button onClick={saveCode}>Save code</Button>
+          <SaveAndRunButton isFullScreen={isFullScreen} onClick={saveCode}>Save code</SaveAndRunButton>
           <Select
             options={languageOptions}
             value={language}
@@ -150,13 +166,19 @@ const EditorContainer = ({
           />
         </SelectBars>
       </UpperToolBar>
-      <CodeEditor
-        currentLanguage={currentLanguage}
-        currentTheme={currentTheme.value}
-        currentCode={currentCode}
-        setCurrentCode={setCurrentCode}
-      />
+      <CodeEditorContainer>
+        <CodeEditor
+          currentLanguage={currentLanguage}
+          currentTheme={currentTheme.value}
+          currentCode={currentCode}
+          setCurrentCode={setCurrentCode}
+        />
+      </CodeEditorContainer>
       <LowerToolBar>
+        <button onClick={() => setIsFullScreen((isFullScreen) => !isFullScreen)}>
+          <BiFullscreen /> {isFullScreen ? 'Minimize Screen' : 'Full Screen'}
+        </button>
+
         <label htmlFor="codefile">
           <input type="file" accept="." id="codefile" onChange={(e) => getFile(e, setCurrentCode)} /> <BiImport /> Import Code
         </label>
@@ -164,7 +186,7 @@ const EditorContainer = ({
         <a href={`data:text/plain;charset=utf-8,${encodeURIComponent(currentCode)}`} download="code.txt">
           <BiExport /> Export Code
         </a>
-        <Button onClick={runCode}>Run Code</Button>
+        <SaveAndRunButton onClick={runCode}>Run Code</SaveAndRunButton>
       </LowerToolBar>
     </StyledEditorContainer >
   )
