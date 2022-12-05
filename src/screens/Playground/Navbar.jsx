@@ -4,7 +4,7 @@ import logo from '../../assets/logo.png'
 import { useNavigate } from 'react-router-dom'
 const NavbarContainer = styled.div`
   height: ${({isFullScreen}) => isFullScreen ? '0' : '4.5rem'};
-  background: #241f21;
+  background: #1e1e1e;
   display: flex;
   align-items: center;
   justify-content: center;
