@@ -40,7 +40,7 @@ const SelectBars = styled.div`
 `
 
 const CodeEditorContainer = styled.div`
-    height: calc(100% - 8rem);
+    height: calc(100% - 4rem);
 
     & > div{
         height: 100%;
@@ -140,7 +140,7 @@ const EditorContainer = ({
 
   return (
     <StyledEditorContainer>
-      <UpperToolBar>
+      {!isFullScreen && <UpperToolBar>
         <Title>
           <h3>{title}</h3>
           <BiEditAlt onClick={() => openModal({
@@ -166,6 +166,7 @@ const EditorContainer = ({
           />
         </SelectBars>
       </UpperToolBar>
+      }
       <CodeEditorContainer>
         <CodeEditor
           currentLanguage={currentLanguage}
