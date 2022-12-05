@@ -25,13 +25,6 @@ import { python } from '@codemirror/lang-python'
 import { indentUnit } from '@codemirror/language'
 import { EditorState } from '@codemirror/state'
 
-const CodeEditorContainer = styled.div`
-    height: calc(100vh - 12.5rem);
-
-    & > div{
-        height: 100%;
-    }
-`
 const CodeEditor = ({
     currentLanguage,
     currentTheme,
@@ -64,46 +57,44 @@ const CodeEditor = ({
     }, [currentTheme])
 
     return (
-        <CodeEditorContainer>
-            <CodeMirror
-                value={currentCode}
-                height="100%"
-                theme={theme}
-                extensions={[
-                    language,
-                    indentUnit.of("        "),
-                    EditorState.tabSize.of(8),
-                    EditorState.changeFilter.of(() => true)
-                ]}
-                onChange={(value) => setCurrentCode(value)}
-                basicSetup={{
-                    lineNumbers: true,
-                    highlightActiveLineGutter: true,
-                    highlightSpecialChars: true,
-                    history: true,
-                    foldGutter: true,
-                    drawSelection: true,
-                    dropCursor: true,
-                    allowMultipleSelections: true,
-                    indentOnInput: true,
-                    syntaxHighlighting: true,
-                    bracketMatching: true,
-                    closeBrackets: true,
-                    autocompletion: true,
-                    rectangularSelection: true,
-                    crosshairCursor: true,
-                    highlightActiveLine: true,
-                    highlightSelectionMatches: true,
-                    closeBracketsKeymap: true,
-                    defaultKeymap: true,
-                    searchKeymap: true,
-                    historyKeymap: true,
-                    foldKeymap: true,
-                    completionKeymap: true,
-                    lintKeymap: true,
-                }}
-            />
-        </CodeEditorContainer>
+        <CodeMirror
+            value={currentCode}
+            height="100%"
+            theme={theme}
+            extensions={[
+                language,
+                indentUnit.of("        "),
+                EditorState.tabSize.of(8),
+                EditorState.changeFilter.of(() => true)
+            ]}
+            onChange={(value) => setCurrentCode(value)}
+            basicSetup={{
+                lineNumbers: true,
+                highlightActiveLineGutter: true,
+                highlightSpecialChars: true,
+                history: true,
+                foldGutter: true,
+                drawSelection: true,
+                dropCursor: true,
+                allowMultipleSelections: true,
+                indentOnInput: true,
+                syntaxHighlighting: true,
+                bracketMatching: true,
+                closeBrackets: true,
+                autocompletion: true,
+                rectangularSelection: true,
+                crosshairCursor: true,
+                highlightActiveLine: true,
+                highlightSelectionMatches: true,
+                closeBracketsKeymap: true,
+                defaultKeymap: true,
+                searchKeymap: true,
+                historyKeymap: true,
+                foldKeymap: true,
+                completionKeymap: true,
+                lintKeymap: true,
+            }}
+        />
     )
 }
 
