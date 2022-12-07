@@ -69,7 +69,7 @@ const Button = styled.button`
   border-radius: 32px;
   font-weight: 700;
   cursor: pointer;
-'
+`
 
 const CodeEditorContainer = styled.div`
     height: calc(100% - 4rem);
