@@ -9,9 +9,8 @@ import styled from 'styled-components';
 
 const InputWithSelect = styled.div`
   display: grid;
-  grid-template-columns: 0.5fr 1fr;
-  row-gap: 1rem;
-  column-gap: 1rem;
+  grid-template-columns: 1fr 0.5fr;
+  gap: 1rem;
   margin-top: 1.2rem;
   align-items: center;
 
@@ -22,9 +21,17 @@ const InputWithSelect = styled.div`
 
   button {
     background: #241f21;
-    height: 2rem;
+    height: 2.5rem;
     color: white;
-    padding: 0 2rem;
+    padding: 0.3rem 2rem;
+  }
+
+  & > div {
+    width: 8rem;
+  }
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
   }
 `;
 

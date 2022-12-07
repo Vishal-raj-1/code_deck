@@ -19,8 +19,9 @@ const ModalContainer = styled.div`
 
 const ModalContent = styled.div`
     background-color: #fff;
-    padding: 2rem;
+    padding: 1.5rem;
     width: 35%;
+    min-width: 300px;
     border-radius: 10px;
 `
 
@@ -41,6 +42,7 @@ export const Input = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
   padding: 1.5rem 0;
   gap: 2rem;
   padding-bottom: 0;
@@ -52,9 +54,9 @@ export const Input = styled.div`
 
   button {
     background: #241f21;
-    height: 2rem;
+    height: 2.5rem;
     color: white;
-    padding: 0.1rem 2rem;
+    padding: 0.3rem 2rem;
   }
 `;
 
