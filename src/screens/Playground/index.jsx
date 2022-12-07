@@ -14,10 +14,14 @@ const MainContainer = styled.div`
   display: grid;
   grid-template-columns: ${({ isFullScreen }) => isFullScreen ? '1fr' : '2fr 1fr'};
   height: ${({ isFullScreen }) => isFullScreen ? '100vh' : 'calc(100vh - 4.5rem)'};
+  @media (max-width: 768px){
+    grid-template-columns: 1fr;
+  }
 `
 
 const Consoles = styled.div`
   display: grid;
+  width: 100%;
   grid-template-rows: 1fr 1fr;
   grid-template-columns: 1fr;
 `

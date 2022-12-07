@@ -14,13 +14,22 @@ const StyledRightComponent = styled.div`
     right: 0;
     width: 60%;
     padding: 2rem;
+
+    @media (max-width: 768px){
+        position: relative;
+        width: 100%;
+        padding: 1rem 0.5rem;
+    }
 `
 
 const Header = styled.div`
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   justify-content: space-between;
   padding: 0.75rem 0;
+  border-bottom: 1px solid #989898;
+  margin-bottom: 1rem;
 `
 
 const Heading = styled.h3`
@@ -66,6 +75,10 @@ const PlayGroundCards = styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 2rem;
+
+    @media (max-width: 428px){
+        grid-template-columns: 1fr;
+    }    
 `
 
 const Card = styled.div`
@@ -75,6 +88,13 @@ const Card = styled.div`
     justify-content: space-between;
     border-radius: 8px;
     box-shadow: 0 0 4px 0px #989898;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+
+    &:hover{
+      scale: 1.05;
+      box-shadow: 0 0 8px 0px #989898;
+    }
 `
 
 const CardContainer = styled.div`
@@ -88,6 +108,11 @@ const CardContent = styled.div`
 const Logo = styled.img`
     width: 70px;
     margin-right: 1rem;
+
+    @media (max-width: 425px){
+        width: 50px;
+        margin-right: 0.5rem;
+    }
 `
 const RightComponent = () => {
   const navigate = useNavigate();
@@ -110,7 +135,6 @@ const RightComponent = () => {
           }
         })}> <span>+</span> New Folder</AddButton>
       </Header>
-      <hr />
 
       {
         Object.entries(folders).map(([folderId, folder]) => (
