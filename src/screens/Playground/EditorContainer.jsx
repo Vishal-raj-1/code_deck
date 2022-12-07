@@ -9,49 +9,74 @@ import { languageMap } from '../../context/PlaygroundContext'
 const StyledEditorContainer = styled.div`
   display: flex;
   flex-direction: column;
+  width: 100%;
 `
 
 const UpperToolBar = styled.div`
   background: #fff;
-  height: 4rem;
-
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.4rem;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  padding: 0.8rem 0.4rem;
+
+  @media (max-width: 540px){
+    height: 8rem;
+  }
+`
+
+const Header = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  @media (max-width: 540px){
+    width: 100%;
+  }
 `
 
 const Title = styled.div`
   display: flex;
   align-items: center;
   gap: 1rem;
-
+  margin-right: 2.3rem;
   font-size: 1.3rem;
+  @media (min-width: 540px){
+    margin-right: 1rem;
+  }
 `
 
 const SelectBars = styled.div`
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 1rem;
 
   & > div{
+    width: 8rem;
+  }
+
+  & > div:last-child{
     width: 10rem;
   }
 `
 const Button = styled.button`
-  padding: 0.6rem 1rem;
+  padding: 0.7rem 0.4rem;
+  width: 6.2rem;
   background: #0097d7;
   border: none;
   border-radius: 32px;
   font-weight: 700;
   cursor: pointer;
 `
+
 const LowerToolBar = styled.div`
-  height: 4rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 2rem;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  padding: 0.8rem 1rem;
 
   input{
     display: none;
@@ -125,19 +150,21 @@ const EditorContainer = ({
   return (
     <StyledEditorContainer>
       <UpperToolBar>
-        <Title>
-          <h3>{title}</h3>
-          <BiEditAlt onClick={() => openModal({
-            show: true,
-            modalType: 5,
-            identifiers: {
-              folderId: folderId,
-              cardId: playgroundId,
-            }
-          })} />
-        </Title>
-        <SelectBars>
+        <Header>
+          <Title>
+            <h3>{title}</h3>
+            <BiEditAlt onClick={() => openModal({
+              show: true,
+              modalType: 5,
+              identifiers: {
+                folderId: folderId,
+                cardId: playgroundId,
+              }
+            })} />
+          </Title>
           <Button onClick={saveCode}>Save code</Button>
+        </Header>
+        <SelectBars>
           <Select
             options={languageOptions}
             value={language}
