@@ -14,6 +14,11 @@ const StyledLeftComponent = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+
+    @media (max-width: 768px){
+        position: relative;
+        width: 100%;
+    }
 `
 const ContentContainer = styled.div`
     text-align: center;
@@ -44,10 +49,13 @@ const SubHeading = styled.div`
 const AddNewButton = styled.button`
     padding: 0.25rem 1.5rem;
     font-size: 1rem;
+    border: none;
     border-radius: 30px;
+    box-shadow: 0px 0px 4px 2px #8b8b8b;
     display: flex;
     align-items: center;
     gap: 0.25rem;
+    transition: all 0.2s ease-in-out;
     span{
         font-size: 2rem;
         font-weight: 700;
@@ -55,6 +63,8 @@ const AddNewButton = styled.button`
 
     &:hover{
         cursor: pointer;
+        scale: 1.05;
+        box-shadow: 0px 0px 6px 2px #8b8b8b;
     }
 `
 const LeftComponent = () => {
