@@ -1,70 +1,33 @@
-# Getting Started with Create React App
+# Code Deck | An Online IDE
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Project Objective
 
-## Available Scripts
+1. Create a playground area where one can create multiple code snippets and run it using an online compiler and execution system(Judge0)
+2. Create a Code Editor Frontend using ReactJS (CodeMirror package)
+3. Implemented flexible layout structure using styled components
+4. Use Rapid API to setup our Judge0 API
+5. Add multi-language support (cpp, python, java, javascript)
+6. Add multi-theme support 
+7. Upload and Download Code
+8. Input and Output console(can upload text files for input & download output)
+9. Functionality to save multiple playground in local storage
+10. Add Fullscreen Support
 
-In the project directory, you can run:
 
-### `npm start`
+## Technologies Used
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- React JS - for frontend 
+- Styled Components  - for styling
+- Judge0 CE API - to create and get submissions
+- Rapid API - to Setup Judge0 CE API
+- Axios - to make API calls
+- React Router - For routing 
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+# Link & References 
 
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- [Live Project Link](https://code-deck.vercel.app/)
+- [Judge0 CE API Testing](https://rapidapi.com/judge0-official/api/judge0-ce)
+- [Judge0 CE API Documentation](https://ce.judge0.com/)
+- [Styled Component Documentation](https://styled-components.com/docs/basics) -> for styling
+- [CodeMirror](https://uiwjs.github.io/react-codemirror/) -> for Coding Editor
+- [Vercel](https://vercel.com/) -> for hoisting

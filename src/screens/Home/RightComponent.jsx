@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import styled from 'styled-components'
 import { IoTrashOutline } from 'react-icons/io5'
 import { BiEditAlt } from 'react-icons/bi'
+import { FcOpenedFolder } from 'react-icons/fc'
 import logo from '../../assets/logo-small.png'
 import { ModalContext } from '../../context/ModalContext'
 import { PlaygroundContext } from '../../context/PlaygroundContext'
@@ -34,7 +35,9 @@ const Header = styled.div`
 const Heading = styled.h3`
   font-size: ${props => props.size === 'small' ? "1.25rem" : "1.75rem"};
   font-weight: 400;
-
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
   span{
     font-weight: 700;
   }
@@ -138,7 +141,7 @@ const RightComponent = () => {
           <FolderCard key={folderId}>
             <Header>
               <Heading size="small">
-                {folder.title}
+                <FcOpenedFolder /> {folder.title}
               </Heading>
               <FolderIcons>
                 <IoTrashOutline onClick={() => deleteFolder(folderId)} />
