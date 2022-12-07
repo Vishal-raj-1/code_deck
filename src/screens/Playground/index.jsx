@@ -13,7 +13,7 @@ import axios from 'axios'
 const MainContainer = styled.div`
   display: grid;
   grid-template-columns: ${({ isFullScreen }) => isFullScreen ? '1fr' : '2fr 1fr'};
-  height: ${({ isFullScreen }) => isFullScreen ? '100vh' : 'calc(100vh - 4.5rem)'};
+  min-height: ${({ isFullScreen }) => isFullScreen ? '100vh' : 'calc(100vh - 4.5rem)'};
   @media (max-width: 768px){
     grid-template-columns: 1fr;
   }
@@ -176,20 +176,16 @@ const Playground = () => {
           isFullScreen={isFullScreen}
           setIsFullScreen={setIsFullScreen}
         />
-        {
-          !isFullScreen && (
-            <Consoles>
-              <InputConsole
-                currentInput={currentInput}
-                setCurrentInput={setCurrentInput}
-                getFile={getFile}
-              />
-              <OutputConsole
-                currentOutput={currentOutput}
-              />
-            </Consoles>
-          )
-        }
+        <Consoles>
+          <InputConsole
+            currentInput={currentInput}
+            setCurrentInput={setCurrentInput}
+            getFile={getFile}
+          />
+          <OutputConsole
+            currentOutput={currentOutput}
+          />
+        </Consoles>
       </MainContainer>
       {isOpenModal.show && <Modal />}
     </div>

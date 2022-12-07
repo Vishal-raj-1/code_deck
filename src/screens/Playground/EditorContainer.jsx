@@ -10,6 +10,7 @@ const StyledEditorContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
+  min-height: ${({ isFullScreen }) => isFullScreen ? '100vh' : 'calc(100vh - 4.5rem)'};
 `
 
 const UpperToolBar = styled.div`
@@ -173,7 +174,7 @@ const EditorContainer = ({
   })
 
   return (
-    <StyledEditorContainer>
+    <StyledEditorContainer isFullScreen={isFullScreen}>
      {!isFullScreen && <UpperToolBar>
         <Header>
           <Title>
